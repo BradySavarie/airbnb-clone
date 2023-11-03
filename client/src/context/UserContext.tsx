@@ -1,13 +1,19 @@
+import axios from 'axios';
 import {
     ReactNode,
     createContext,
     useState,
     Dispatch,
     SetStateAction,
+    useEffect,
 } from 'react';
 
 type User = {
-    // Define your user type here
+    _id: string;
+    name: string;
+    email: string;
+    password: string;
+    __v: number;
 };
 
 type UserContextType = {
@@ -25,6 +31,13 @@ export const UserContext = createContext<UserContextType | undefined>(
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
     const [user, setUser] = useState<User | null>(null);
+    useEffect(() => {
+        if (!user) {
+            axios.get('/profile').then(({ data }) => {
+                setUser(data);
+            });
+        }
+    }, []);
     return (
         <UserContext.Provider value={{ user, setUser }}>
             {children}

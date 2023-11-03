@@ -6,6 +6,7 @@ export default function RegisterPage() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
     async function registerUser(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         try {
@@ -15,6 +16,7 @@ export default function RegisterPage() {
             alert('Registration Failed. Please try again later.');
         }
     }
+
     return (
         <div className="mt-4 flex grow items-center justify-around">
             <div className="mb-36">

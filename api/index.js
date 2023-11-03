@@ -3,12 +3,14 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
     cors({
         credentials: true,
@@ -60,6 +62,19 @@ app.post('/login', async (req, res) => {
         }
     } else {
         res.json('not found');
+    }
+});
+
+app.get('/profile', (req, res) => {
+    const { token } = req.cookies;
+    if (token) {
+        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            const user = await User.findById(userData.id);
+            res.json(user);
+        });
+    } else {
+        res.json(null);
     }
 });
 
