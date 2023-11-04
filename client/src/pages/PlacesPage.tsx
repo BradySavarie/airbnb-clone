@@ -81,7 +81,7 @@ export default function PlacesPage() {
                         <p className="text-gray-500 text-sm">
                             Select all of the perks of your place.
                         </p>
-                        <div className="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-5 mt-2">
+                        <div className="grid gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-2">
                             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
                                 <input type="checkbox" />
                                 <svg
@@ -191,6 +191,31 @@ export default function PlacesPage() {
                                 <span>Private&nbsp;Entrance</span>
                             </label>
                         </div>
+                        <h2 className="text-2xl mt-4">Extra Info</h2>
+                        <p className="text-gray-500 text-sm">
+                            House Rules, etc.
+                        </p>
+                        <textarea />
+                        <h2 className="text-2xl mt-4">Check In & Out Times</h2>
+                        <p className="text-gray-500 text-sm">
+                            Add check in and out times. Remember to include time
+                            for cleaning between guests.
+                        </p>
+                        <div className="grid sm:grid-cols-3 gap-2">
+                            <div className="mt-2 -mb-2">
+                                <h3>Check In Time</h3>
+                                <input type="text" placeholder="3:00pm" />
+                            </div>
+                            <div className="mt-2 -mb-2">
+                                <h3>Check Out Time</h3>
+                                <input type="text" placeholder="12:00pm" />
+                            </div>
+                            <div className="mt-2 -mb-2">
+                                <h3>Max Number of Guests</h3>
+                                <input type="text" placeholder="5" />
+                            </div>
+                        </div>
+                        <button className="primary my-4">Save</button>
                     </form>
                 </div>
             )}
