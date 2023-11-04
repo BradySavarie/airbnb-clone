@@ -26,6 +26,32 @@ export default function PlacesPage() {
                     </Link>
                 </div>
             )}
+            {action === 'new' && (
+                <div>
+                    <form>
+                        <h2 className="text-2xl mt-4">Title</h2>
+                        <p className="text-gray-500 text-sm">
+                            Title for your place. Keep it short and memorable
+                        </p>
+                        <input
+                            type="text"
+                            placeholder="Title, Ex: My Apartment"
+                        />
+                        <h2 className="text-2xl mt-4">Address</h2>
+                        <p className="text-gray-500 text-sm">
+                            Address to your place.
+                        </p>
+                        <input type="text" placeholder="Address" />
+                        <h2 className="text-2xl mt-4">Photos</h2>
+                        <p className="text-gray-500 text-sm">More = Better</p>
+                        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-2">
+                            <button className="border bg-transparent rounded-2xl p-8 text-2xl text-gray-600">
+                                +
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            )}
         </div>
     );
 }
