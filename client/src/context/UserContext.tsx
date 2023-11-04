@@ -19,6 +19,7 @@ type User = {
 type UserContextType = {
     user: User | null;
     setUser: Dispatch<SetStateAction<User | null>>;
+    ready: boolean;
 };
 
 type UserContextProviderProps = {
@@ -31,15 +32,17 @@ export const UserContext = createContext<UserContextType | undefined>(
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
     const [user, setUser] = useState<User | null>(null);
+    const [ready, setReady] = useState(false);
     useEffect(() => {
         if (!user) {
             axios.get('/profile').then(({ data }) => {
                 setUser(data);
+                setReady(true);
             });
         }
     }, []);
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ user, setUser, ready }}>
             {children}
         </UserContext.Provider>
     );
