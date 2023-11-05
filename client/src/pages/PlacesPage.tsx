@@ -1,6 +1,7 @@
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Perks from '../components/Perks';
+import axios from 'axios';
 
 export default function PlacesPage() {
     const { action } = useParams();
@@ -28,6 +29,13 @@ export default function PlacesPage() {
         const newValue: number | '' =
             e.target.value !== '' ? parseInt(e.target.value, 10) : '';
         setMaxGuests(newValue);
+    }
+
+    async function addPhotoByLink(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+        const { data } = await axios.post('/upload-by-link', {
+            link: photoLink,
+        });
     }
 
     return (
@@ -82,7 +90,10 @@ export default function PlacesPage() {
                                 onChange={(e) => setPhotoLink(e.target.value)}
                                 placeholder="Add using a link ...jpg"
                             />
-                            <button className="bg-gray-200 px-4 rounded-2xl">
+                            <button
+                                onClick={addPhotoByLink}
+                                className="bg-gray-200 px-4 rounded-2xl"
+                            >
                                 Add&nbsp;Photo
                             </button>
                         </div>
