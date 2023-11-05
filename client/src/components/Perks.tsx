@@ -1,11 +1,11 @@
 import React, { ChangeEvent } from 'react';
 
-type SelectedProps = {
+type PerksProps = {
     selected: string[];
     onChange: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
-const Perks: React.FC<SelectedProps> = ({ selected, onChange }) => {
+const Perks: React.FC<PerksProps> = ({ selected, onChange }) => {
     function handleCbClick(e: ChangeEvent<HTMLInputElement>) {
         const { checked, name } = e.target;
         if (checked) {
