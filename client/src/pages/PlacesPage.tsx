@@ -7,7 +7,7 @@ export default function PlacesPage() {
     const { action } = useParams();
     const [title, setTitle] = useState('');
     const [address, setAddress] = useState('');
-    const [addedPhotos, setAddedPhotos] = useState([]);
+    const [addedPhotos, setAddedPhotos] = useState<string[]>([]);
     const [photoLink, setPhotoLink] = useState('');
     const [description, setDescription] = useState('');
     const [perks, setPerks] = useState([]);
@@ -33,9 +33,35 @@ export default function PlacesPage() {
 
     async function addPhotoByLink(e: React.MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
-        const { data } = await axios.post('/upload-by-link', {
+        const { data: filename } = await axios.post('/upload-by-link', {
             link: photoLink,
         });
+        setAddedPhotos((prev) => {
+            return [...prev, filename];
+        });
+        setPhotoLink('');
+    }
+
+    function uploadPhoto(e: ChangeEvent<HTMLInputElement>) {
+        const files: FileList | null = e.target.files;
+
+        if (files) {
+            const data = new FormData();
+            for (let i = 0; i < files.length; i++) {
+                const file: File = files[i];
+                data.append('photos', file);
+            }
+            axios
+                .post('/upload', data, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                })
+                .then((response) => {
+                    const { data: filenames } = response;
+                    setAddedPhotos((prev) => {
+                        return [...prev, ...filenames];
+                    });
+                });
+        }
     }
 
     return (
@@ -97,8 +123,27 @@ export default function PlacesPage() {
                                 Add&nbsp;Photo
                             </button>
                         </div>
-                        <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-2">
-                            <button className="flex justify-center gap-1 border bg-transparent rounded-2xl p-8 text-2xl text-gray-600">
+                        <div className="grid grid-cols-3 gap-2 md:grid-cols-4 lg:grid-cols-6 mt-2">
+                            {addedPhotos.length > 0 &&
+                                addedPhotos.map((link) => (
+                                    <div>
+                                        <img
+                                            className="max-h-48 rounded-2xl object-cover aspect-square"
+                                            src={
+                                                'http://localhost:4000/uploads/' +
+                                                link
+                                            }
+                                            alt="property photo"
+                                        />
+                                    </div>
+                                ))}
+                            <label className="flex items-center justify-center gap-1 py-8 border bg-transparent rounded-2xl text-2xl text-gray-600 cursor-pointer">
+                                <input
+                                    type="file"
+                                    className="hidden"
+                                    onChange={uploadPhoto}
+                                    multiple
+                                />
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -114,7 +159,7 @@ export default function PlacesPage() {
                                     />
                                 </svg>
                                 Upload
-                            </button>
+                            </label>
                         </div>
                         {preInput('Description', 'Description of your place.')}
                         <textarea
