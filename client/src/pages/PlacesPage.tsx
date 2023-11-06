@@ -1,10 +1,12 @@
 import { ChangeEvent, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import Perks from '../components/Perks';
 import PhotosUploader from '../components/PhotosUploader';
+import axios from 'axios';
 
 export default function PlacesPage() {
     const { action } = useParams();
+    const [redirect, setRedirect] = useState('');
     const [title, setTitle] = useState('');
     const [address, setAddress] = useState('');
     const [description, setDescription] = useState('');
@@ -28,6 +30,29 @@ export default function PlacesPage() {
         const newValue: number | '' =
             e.target.value !== '' ? parseInt(e.target.value, 10) : '';
         setMaxGuests(newValue);
+    }
+
+    async function addNewPlace(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+
+        const placeData = {
+            title,
+            address,
+            description,
+            addedPhotos,
+            perks,
+            extraInfo,
+            checkIn,
+            checkOut,
+            maxGuests,
+        };
+
+        await axios.post('/places', placeData);
+        setRedirect('/account/places');
+    }
+
+    if (redirect) {
+        return <Navigate to={redirect} />;
     }
 
     return (
@@ -56,7 +81,7 @@ export default function PlacesPage() {
             )}
             {action === 'new' && (
                 <div>
-                    <form>
+                    <form onSubmit={addNewPlace}>
                         {preInput(
                             'Title',
                             'Title for your place. Keep it short and memorable'
@@ -131,7 +156,9 @@ export default function PlacesPage() {
                                 />
                             </div>
                         </div>
-                        <button className="primary my-4">Save</button>
+                        <button type="submit" className="primary my-4">
+                            Save
+                        </button>
                     </form>
                 </div>
             )}

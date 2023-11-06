@@ -9,6 +9,7 @@ const multer = require('multer');
 const fs = require('fs');
 const mongoose = require('mongoose');
 const User = require('./models/User');
+const Place = require('./models/Place');
 
 const app = express();
 
@@ -108,6 +109,39 @@ app.post('/upload', photosMiddleware.array('photos', 100), (req, res) => {
         uploadedFiles.push(newPath.replace('uploads/', ''));
     }
     res.json(uploadedFiles);
+});
+
+app.post('/places', (req, res) => {
+    const {
+        title,
+        address,
+        description,
+        addedPhotos,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests,
+    } = req.body;
+
+    const { token } = req.cookies;
+
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+        if (err) throw err;
+        const placeDoc = await Place.create({
+            owner: userData.id,
+            title,
+            address,
+            description,
+            photos: addedPhotos,
+            perks,
+            extraInfo,
+            checkIn,
+            checkOut,
+            maxGuests,
+        });
+        res.json(placeDoc);
+    });
 });
 
 app.listen(4000);
