@@ -1,12 +1,35 @@
 import { Link } from 'react-router-dom';
 import AccountNav from '../components/AccountNav';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+type PlacesType = {
+    _id: string;
+    owner: string;
+    title: string;
+    address: string;
+    description: string;
+    photos: string[];
+    perks: string[];
+    extraInfo: string;
+    checkIn: string;
+    checkOut: string;
+    maxGuests: number;
+};
 
 export default function PlacesPage() {
+    const [places, setPlaces] = useState<PlacesType[]>([]);
+
+    useEffect(() => {
+        axios.get('/places').then(({ data }) => {
+            setPlaces(data);
+        });
+    }, []);
+
     return (
         <div>
             <AccountNav />
             <div className="text-center">
-                List of all added places <br />
                 <Link
                     className="inline-flex gap-1 bg-primary text-white py-2 px-6 rounded-full"
                     to={'/account/places/new'}
@@ -25,6 +48,30 @@ export default function PlacesPage() {
                     </svg>
                     Add New Place
                 </Link>
+            </div>
+            <div className="mt-4">
+                {places.length > 0 &&
+                    places.map((place) => (
+                        <Link
+                            to={'/account/places/' + place._id}
+                            className="flex bg-gray-100 p-4 gap-4 rounded-2xl cursor-pointer"
+                        >
+                            <div className="bg-gray-300 w-32 h-32 grow shrink-0">
+                                {place.photos.length > 0 && (
+                                    <img
+                                        src={`http://localhost:4000/uploads/${place.photos[0]}`}
+                                        alt="Property photo"
+                                    />
+                                )}
+                            </div>
+                            <div className="grow-0 shrink">
+                                <h2 className="text-xl">{place.title}</h2>
+                                <p className="text-sm mt-2">
+                                    {place.description}
+                                </p>
+                            </div>
+                        </Link>
+                    ))}
             </div>
         </div>
     );

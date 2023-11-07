@@ -22,7 +22,12 @@ const Perks: React.FC<PerksProps> = ({ selected, onChange }) => {
     return (
         <>
             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-                <input type="checkbox" onChange={handleCbClick} name="wifi" />
+                <input
+                    type="checkbox"
+                    onChange={handleCbClick}
+                    checked={selected.includes('wifi')}
+                    name="wifi"
+                />
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -43,6 +48,7 @@ const Perks: React.FC<PerksProps> = ({ selected, onChange }) => {
                 <input
                     type="checkbox"
                     onChange={handleCbClick}
+                    checked={selected.includes('freeParkingSpot')}
                     name="freeParkingSpot"
                 />
                 <svg
@@ -62,7 +68,12 @@ const Perks: React.FC<PerksProps> = ({ selected, onChange }) => {
                 <span>Free&nbsp;Parking&nbsp;Spot</span>
             </label>
             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-                <input type="checkbox" onChange={handleCbClick} name="tv" />
+                <input
+                    type="checkbox"
+                    onChange={handleCbClick}
+                    checked={selected.includes('tv')}
+                    name="tv"
+                />
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -80,7 +91,12 @@ const Perks: React.FC<PerksProps> = ({ selected, onChange }) => {
                 <span>TV</span>
             </label>
             <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-                <input type="checkbox" onChange={handleCbClick} name="radio" />
+                <input
+                    type="checkbox"
+                    onChange={handleCbClick}
+                    checked={selected.includes('radio')}
+                    name="radio"
+                />
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -101,6 +117,7 @@ const Perks: React.FC<PerksProps> = ({ selected, onChange }) => {
                 <input
                     type="checkbox"
                     onChange={handleCbClick}
+                    checked={selected.includes('petsAllowed')}
                     name="petsAllowed"
                 />
                 <svg
@@ -123,6 +140,7 @@ const Perks: React.FC<PerksProps> = ({ selected, onChange }) => {
                 <input
                     type="checkbox"
                     onChange={handleCbClick}
+                    checked={selected.includes('privateEntrance')}
                     name="privateEntrance"
                 />
                 <svg
