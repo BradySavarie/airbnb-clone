@@ -16,6 +16,7 @@ export default function PlacesFormPage() {
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
     const [maxGuests, setMaxGuests] = useState<number | ''>(1);
+    const [price, setPrice] = useState<number | ''>(100);
     const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
@@ -31,6 +32,7 @@ export default function PlacesFormPage() {
             setCheckIn(data.checkIn);
             setCheckOut(data.checkOut);
             setMaxGuests(data.maxGuests);
+            setPrice(data.price);
         });
     }, [id]);
 
@@ -49,6 +51,12 @@ export default function PlacesFormPage() {
         setMaxGuests(newValue);
     }
 
+    function handlePriceChange(e: ChangeEvent<HTMLInputElement>) {
+        const newValue: number | '' =
+            e.target.value !== '' ? parseInt(e.target.value, 10) : '';
+        setPrice(newValue);
+    }
+
     async function savePlace(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         const placeData = {
@@ -61,6 +69,7 @@ export default function PlacesFormPage() {
             checkIn,
             checkOut,
             maxGuests,
+            price,
         };
 
         if (id) {
@@ -120,7 +129,7 @@ export default function PlacesFormPage() {
                     'Check In & Out Times',
                     'Add check in and out times. Remember to include time for cleaning between guests.'
                 )}
-                <div className="grid sm:grid-cols-3 gap-2 mb-2">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-2">
                     <div className="mt-2 -mb-2">
                         <h3>Check In Time</h3>
                         <input
@@ -146,6 +155,15 @@ export default function PlacesFormPage() {
                             min={1}
                             value={maxGuests}
                             onChange={handleMaxGuestsChange}
+                        />
+                    </div>
+                    <div className="mt-2 -mb-2">
+                        <h3>Price ($)</h3>
+                        <input
+                            type="number"
+                            min={1}
+                            value={price}
+                            onChange={handlePriceChange}
                         />
                     </div>
                 </div>

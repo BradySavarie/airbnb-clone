@@ -3,7 +3,7 @@ import AccountNav from '../components/AccountNav';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-type PlacesType = {
+export type PlacesType = {
     _id: string;
     owner: string;
     title: string;
@@ -15,13 +15,14 @@ type PlacesType = {
     checkIn: string;
     checkOut: string;
     maxGuests: number;
+    price: number;
 };
 
 export default function PlacesPage() {
     const [places, setPlaces] = useState<PlacesType[]>([]);
 
     useEffect(() => {
-        axios.get('/places').then(({ data }) => {
+        axios.get('/user-places').then(({ data }) => {
             setPlaces(data);
         });
     }, []);
@@ -56,7 +57,7 @@ export default function PlacesPage() {
                             to={'/account/places/' + place._id}
                             className="flex bg-gray-100 p-4 gap-4 rounded-2xl cursor-pointer"
                         >
-                            <div className="bg-gray-300 w-32 h-32 grow shrink-0">
+                            <div className="bg-gray-300 w-32 grow shrink-0">
                                 {place.photos.length > 0 && (
                                     <img
                                         src={`http://localhost:4000/uploads/${place.photos[0]}`}
