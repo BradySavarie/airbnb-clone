@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { PlacesType } from './PlacesPage';
+import BookingWidget from '../components/BookingWidget';
 
 export default function PlacePage() {
     const { id } = useParams();
@@ -20,6 +21,8 @@ export default function PlacePage() {
     if (!place) return '';
 
     if (showAllPhotos) {
+        window.scrollTo(0, 0);
+
         return (
             <div className="absolute inset-0 bg-black min-h-screen">
                 <div className="bg-black p-8 grid gap-4">
@@ -50,6 +53,7 @@ export default function PlacePage() {
                         place.photos.map((photo) => (
                             <div className="flex justify-center">
                                 <img
+                                    className="max-w-4xl"
                                     src={
                                         'http://localhost:4000/uploads/' + photo
                                     }
@@ -66,7 +70,7 @@ export default function PlacePage() {
         <div className="mt-4 bg-gray-100 -mx-8 px-8 py-8 ">
             <h1 className="text-3xl ">{place.title}</h1>
             <a
-                className="flex gap-1 my-2 font-semibold underline"
+                className="flex gap-1 my-3 font-semibold underline"
                 target="_blank"
                 href={'https://maps.google.com/?q=' + place.address}
             >
@@ -92,7 +96,7 @@ export default function PlacePage() {
                 {place.address}
             </a>
             <div className="relative">
-                <div className="grid gap-2 grid-cols-[2fr_1fr]">
+                <div className="grid gap-2 grid-cols-[2fr_1fr] rounded-3xl overflow-hidden">
                     <div>
                         {place.photos.length > 0 && (
                             <div>
@@ -150,6 +154,19 @@ export default function PlacePage() {
                     </svg>
                     Show More Photos
                 </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] mt-8 gap-8">
+                <div>
+                    <div className="my-4">
+                        <h2 className="font-semibold text-2xl ">Description</h2>
+                        {place.description}
+                    </div>
+                    Check In: {place.checkIn} <br />
+                    Check Out: {place.checkOut} <br />
+                    Max Number of Guests: {place.maxGuests} <br />
+                </div>
+                <BookingWidget place={place} />
             </div>
         </div>
     );
