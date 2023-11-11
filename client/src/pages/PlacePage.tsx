@@ -27,7 +27,7 @@ export default function PlacePage() {
             <div className="absolute inset-0 bg-black min-h-screen">
                 <div className="bg-black p-8 grid gap-4">
                     <div>
-                        <h2 className="text-3xl text-white">
+                        <h2 className="text-3xl text-white mr-48">
                             Photos of {place.title}
                         </h2>
                         <button
@@ -53,7 +53,7 @@ export default function PlacePage() {
                         place.photos.map((photo) => (
                             <div className="flex justify-center">
                                 <img
-                                    className="max-w-4xl"
+                                    className="md:max-w-4xl"
                                     src={
                                         'http://localhost:4000/uploads/' + photo
                                     }
@@ -67,7 +67,7 @@ export default function PlacePage() {
     }
 
     return (
-        <div className="mt-4 bg-gray-100 -mx-8 px-8 py-8 ">
+        <div className="mt-4 bg-gray-100 -mx-8 px-8 pt-8 ">
             <h1 className="text-3xl ">{place.title}</h1>
             <a
                 className="flex gap-1 my-3 font-semibold underline"
@@ -101,7 +101,8 @@ export default function PlacePage() {
                         {place.photos.length > 0 && (
                             <div>
                                 <img
-                                    className="aspect-square object-cover"
+                                    onClick={() => setShowAllPhotos(true)}
+                                    className="aspect-square object-cover cursor-pointer"
                                     src={
                                         'http://localhost:4000/uploads/' +
                                         place.photos?.[0]
@@ -114,7 +115,8 @@ export default function PlacePage() {
                     <div className="grid">
                         {place.photos.length > 0 && (
                             <img
-                                className="aspect-square object-cover"
+                                onClick={() => setShowAllPhotos(true)}
+                                className="aspect-square object-cover cursor-pointer"
                                 src={
                                     'http://localhost:4000/uploads/' +
                                     place.photos?.[1]
@@ -125,7 +127,8 @@ export default function PlacePage() {
                         {place.photos.length > 0 && (
                             <div className="overflow-hidden">
                                 <img
-                                    className="aspect-square object-cover relative top-2"
+                                    onClick={() => setShowAllPhotos(true)}
+                                    className="aspect-square object-cover relative top-2 cursor-pointer"
                                     src={
                                         'http://localhost:4000/uploads/' +
                                         place.photos?.[2]
@@ -167,6 +170,14 @@ export default function PlacePage() {
                     Max Number of Guests: {place.maxGuests} <br />
                 </div>
                 <BookingWidget place={place} />
+            </div>
+            <div className="bg-white -mx-8 px-9 py-8 mt-8 border-t">
+                <div>
+                    <h2 className="font-semibold text-2xl ">Extra Info</h2>
+                </div>
+                <div className="text-sm text-gray-700 leading-5 mb-4 mt-2">
+                    {place.extraInfo}
+                </div>
             </div>
         </div>
     );
