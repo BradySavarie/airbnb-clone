@@ -10,6 +10,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const Place = require('./models/Place');
+const Booking = require('./models/Booking');
 
 const app = express();
 
@@ -201,6 +202,23 @@ app.put('/places', async (req, res) => {
             res.json('ok');
         }
     });
+});
+
+app.post('/booking', async (req, res) => {
+    const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
+        req.body;
+
+    await Booking.create({
+        place,
+        checkIn,
+        checkOut,
+        numberOfGuests,
+        name,
+        phone,
+        price,
+    });
+
+    res.json('ok');
 });
 
 app.listen(4000);
