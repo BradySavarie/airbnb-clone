@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 const Place = require('./models/Place');
 const Booking = require('./models/Booking');
+const { error } = require('console');
 
 const app = express();
 
@@ -204,21 +205,41 @@ app.put('/places', async (req, res) => {
     });
 });
 
-app.post('/booking', async (req, res) => {
+app.post('/bookings', async (req, res) => {
+    const userData = await getUserDataFromReq(req);
     const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
         req.body;
 
-    await Booking.create({
+    Booking.create({
         place,
+        user: userData.id,
         checkIn,
         checkOut,
         numberOfGuests,
         name,
         phone,
         price,
-    });
+    })
+        .then((doc) => {
+            res.json(doc);
+        })
+        .catch((err) => {
+            throw err;
+        });
+});
 
-    res.json('ok');
+function getUserDataFromReq(req) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(req.cookies.token, jwtSecret, {}, async (err, userData) => {
+            if (err) throw err;
+            resolve(userData);
+        });
+    });
+}
+
+app.get('/bookings', async (req, res) => {
+    const userData = await getUserDataFromReq(req);
+    res.json(await Booking.find({ user: userData.id }));
 });
 
 app.listen(4000);

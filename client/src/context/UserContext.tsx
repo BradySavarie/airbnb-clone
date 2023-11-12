@@ -8,7 +8,7 @@ import {
     useEffect,
 } from 'react';
 
-type User = {
+export type User = {
     _id: string;
     name: string;
     email: string;
@@ -16,7 +16,7 @@ type User = {
     __v: number;
 };
 
-type UserContextType = {
+export type UserContextType = {
     user: User | null;
     setUser: Dispatch<SetStateAction<User | null>>;
     ready: boolean;
