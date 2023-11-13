@@ -6,7 +6,7 @@ import { PlacesType } from './PlacesPage';
 import { differenceInCalendarDays, format } from 'date-fns';
 import { Link } from 'react-router-dom';
 
-type BookingType = {
+export type BookingType = {
     place: PlacesType;
     user: string;
     checkIn: string;
